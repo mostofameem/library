@@ -1,7 +1,6 @@
 package db
 
 import (
-	"database/sql"
 	"log"
 	"log/slog"
 	"user_service/logger"
@@ -41,7 +40,7 @@ func (r *UserTypeRepo) Create(usr User) error {
 		"name":      usr.Name,
 		"Email":     usr.Email,
 		"password":  usr.Pass,
-		"TYPE":      "User",
+		"type":      "User",
 		"is_active": false,
 	}
 	var colNames []string
@@ -75,11 +74,10 @@ func (r *UserTypeRepo) Create(usr User) error {
 	err = GetWriteDB().QueryRow(query, args...).Scan(&UserID)
 	return err
 }
-func (r *UserTypeRepo) CheckUser(email string) (string, error) {
-	var pass string
-
+func (r *UserTypeRepo) CheckUser(email string) (User, error) {
+	var returnuserinfo User
 	queryString, args, err := GetQueryBuilder().
-		Select("password").
+		Select("id", "password", "type").
 		From(r.table).
 		Where(sq.Eq{"email": email}).
 		ToSql()
@@ -92,65 +90,86 @@ func (r *UserTypeRepo) CheckUser(email string) (string, error) {
 				"args":  args,
 			}),
 		)
-		return pass, err
+		return returnuserinfo, err
 	}
-	err = GetReadDB().Get(&pass, queryString, args...)
-	return pass, err
+	err = GetReadDB().Get(&returnuserinfo, queryString, args...)
+	return returnuserinfo, err
 }
-func (r *UserTypeRepo) Update(usr User) error {
 
-	// Build the insert query
-	query, args, err := GetQueryBuilder().
-		Update(r.table).
-		Set("name", usr.Name).
-		Set("email", usr.Email).
-		Set("type", usr.Type).
-		Set("is_active", usr.Is_active).
-		Where(sq.Eq{"id": usr.Id}).
-		ToSql()
+type UserParam struct {
+	Id        int    `json:"id"`
+	Type      string `json:"type"`
+	Is_active string `json:"is_active"`
+}
+
+// Query := GetQueryBuilder().
+// 		Select("isbn", "title", "total_page", "author", "genres", "quantity", "Publication_date", "Next_available", "Is_active").
+// 		From(r.table)
+
+//	for k, v := range params.Filters {
+//		Query = Query.Where(sq.Eq{k: v})
+//	}
+func (r *UserTypeRepo) ReadUser(qry UserParam) ([]User, error) {
+
+	Query := GetQueryBuilder().
+		Select("id", "name", "email").
+		From(r.table)
+
+	if qry.Id != 0 {
+		Query = Query.Where(sq.Eq{"id": qry.Id})
+	}
+	if qry.Type != "" {
+		Query = Query.Where(sq.Eq{"type": qry.Type})
+	}
+	if qry.Is_active != "" {
+		Query = Query.Where(sq.Eq{"is_active": qry.Is_active})
+	}
+
+	var user []User
+	sql, args, err := Query.ToSql()
 	if err != nil {
-		slog.Error(
-			"Failed to create New user insert query",
-			logger.Extra(map[string]any{
-				"error": err.Error(),
-				"query": query,
-				"args":  args,
-			}),
-		)
+		log.Println("Error building SQL:", err)
+		return []User{}, err
+	}
+	err = GetReadDB().Select(&user, sql, args...)
+	if err != nil {
+		log.Println("Failed to get books:", err)
+		return []User{}, err
+	}
+	return user, nil
+}
+
+func (r *UserTypeRepo) ApproveUserRequest(q User) error {
+	query, args, err := GetQueryBuilder().Update(r.table).
+		Set("is_active", true).
+		Where(sq.Eq{"id": q.Id}).ToSql()
+
+	log.Println("hi")
+	log.Println(query)
+
+	if err != nil {
+		slog.Error("Failed to make query", logger.Extra(map[string]any{
+			"error":   err.Error(),
+			"payload": query,
+		}))
 		return err
 	}
+
 	err = GetWriteDB().QueryRow(query, args...).Err()
 	return err
 }
-func (r *UserTypeRepo) ReadUser(id int) (User, error) {
 
-	// Build the select query
-	query, args, err := GetQueryBuilder().
-		Select("id", "name", "email", "type", "is_active").
-		From(r.table).
-		Where(sq.Eq{"id": id}).
-		ToSql()
+func (r *UserTypeRepo) RejectUserRequest(q User) error {
+	query, args, err := GetQueryBuilder().Delete(r.table).
+		Where(sq.Eq{"id": q.Id}).ToSql()
 	if err != nil {
-		log.Printf("Failed to create user select query: %v, query: %s, args: %v\n", err, query, args)
-		return User{}, err
+		slog.Error("Failed to Delete data", logger.Extra(map[string]any{
+			"error":   err.Error(),
+			"payload": query,
+		}))
+		return err
 	}
 
-	var usr User
-	err = GetWriteDB().QueryRow(query, args...).Scan(
-		&usr.Id,
-		&usr.Name,
-		&usr.Email,
-		&usr.Type,
-		&usr.Is_active,
-	)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			log.Printf("No user found with id: %d\n", id)
-			return User{}, nil // Return nil error for not found
-		}
-		log.Printf("Failed to execute query: %v\n", err)
-		return User{}, err
-	}
-
-	return usr, nil
+	err = GetWriteDB().QueryRow(query, args...).Err()
+	return err
 }

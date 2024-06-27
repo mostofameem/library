@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"user_service/db"
 	"user_service/logger"
+	"user_service/web/middlewares"
 	"user_service/web/utils"
 )
 
@@ -27,12 +28,16 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		utils.SendError(w, http.StatusBadRequest, err)
 		return
 	}
-	pass, _ := db.GetUserTypeRepo().CheckUser(user.Email)
-	log.Println(pass)
-	log.Println(user.Password)
+	userinfo, _ := db.GetUserTypeRepo().CheckUser(user.Email)
 
-	if pass == hashPassword(user.Password) {
-		utils.SendData(w, "Success")
+	accessToken, err := middlewares.GenerateToken(userinfo)
+	if err != nil {
+		utils.SendError(w, http.StatusUnauthorized, err)
+	}
+
+	if userinfo.Pass == hashPassword(user.Password) {
+		log.Println(accessToken)
+		utils.SendBothData(w, userinfo.Type, accessToken)
 	} else {
 		utils.SendError(w, http.StatusUnauthorized, fmt.Errorf("worng Username/password"))
 	}
