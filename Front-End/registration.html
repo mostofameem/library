@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Registration</title>
+  <link rel="stylesheet" href="login.css">
+  <script src="registration.js" defer> </script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <h2 class="logo">Logo</h2>
+    <nav class="navigation">
+      <a href="#">Home</a>
+      <a href="#">Service</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <div class="wrapper"  id="closeButton">
+    <div class="x">
+      <span class="icon-close">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </span>
+    </div>
+
+    <div class="from-box register">
+      <h2>Registration</h2>
+      <form action="#">
+        <div class="input-box">
+          <input id="Username" type="text" placeholder="Username" required>
+          <ion-icon class="icon" name="person"></ion-icon>
+        </div>
+
+        <div class="input-box">
+          <span class="icon">
+            <ion-icon name="mail"></ion-icon>
+          </span>
+          <input id="Email" type="text" placeholder="Email" required>
+        </div>
+
+        <div class="input-box">
+          <span class="icon">
+            <ion-icon name="lock-closed"></ion-icon>
+          </span>
+          <input id="Password" type="password" placeholder="Password" required>
+        </div>
+
+        <div class="remember-forgot">
+          <label>
+            <input id= "Terms" type="checkbox"> I agree to the term & conditions
+          </label>
+        </div>
+
+        <button type="submit"  onclick="Register()"  class="btn">Register</button>
+        <div class="reg">
+          <p>Already have an account? <a href="login.html">Login</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+ 
+  
+</body>
+
+</html>

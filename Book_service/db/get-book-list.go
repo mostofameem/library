@@ -29,7 +29,7 @@ func (r *BookTypeRepo) GetBookList(params utils.PaginationParams) ([]Books, erro
 	limit, offset := ConfigPageSize(params.Page, params.Limit)
 
 	Query := GetQueryBuilder().
-		Select("isbn", "title", "author", "genres", "quantity", "Publication_date", "Next_available", "Is_active").
+		Select("isbn", "title", "total_page", "author", "genres", "quantity", "Publication_date", "Next_available", "Is_active").
 		From(r.table)
 
 	for k, v := range params.Filters {
@@ -46,15 +46,11 @@ func (r *BookTypeRepo) GetBookList(params utils.PaginationParams) ([]Books, erro
 		return []Books{}, err
 	}
 
-	log.Println(sql)
-
 	err = GetDB().Select(&AllProducts, sql, args...)
 	if err != nil {
 		log.Println("Failed to get books:", err)
 		return []Books{}, err
 	}
-
-	log.Println(AllProducts)
 	return AllProducts, nil
 
 }

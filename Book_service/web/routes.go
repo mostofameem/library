@@ -21,5 +21,35 @@ func InitRouts(mux *http.ServeMux, manager *middlewares.Manager) {
 			//middlewares.AuthenticateJWT,
 		),
 	)
-
+	mux.Handle(
+		"POST /borrow",
+		manager.With(
+			http.HandlerFunc(handlers.BorrowBook),
+			//middlewares.AuthenticateJWT,
+		),
+	)
+	mux.Handle(
+		"GET /profile",
+		manager.With(
+			http.HandlerFunc(handlers.Profile),
+		),
+	)
+	mux.Handle(
+		"PATCH /approve-request",
+		manager.With(
+			http.HandlerFunc(handlers.ApproveBorrowRequest),
+		),
+	)
+	mux.Handle(
+		"DELETE /reject-request",
+		manager.With(
+			http.HandlerFunc(handlers.RejectBorrowRequest),
+		),
+	)
+	mux.Handle(
+		"GET /get-borrow-request",
+		manager.With(
+			http.HandlerFunc(handlers.GetBorrowRequest),
+		),
+	)
 }

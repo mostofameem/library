@@ -1,0 +1,38 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.left-side, .right-side {
+  padding: 20px;
+}
+
+.left-side {
+  flex: 2;
+  background-color: #f4f4f4;
+}
+
+.right-side {
+  flex: 1;
+  background-color: #ddd;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}

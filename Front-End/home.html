@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="home.css">
+    <script src="home.js" defer> </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="query">
+        <input id="title" type="text" placeholder="Title ">
+        <input id="category" type="text" placeholder="Category">
+        <input id="author" type="text" placeholder="Author">
+        <select id="filterSelect">
+            <option value="all">All</option>
+            <option value="available">Available</option>
+        </select>
+        <button id="filterButton" onclick="Get_Book_List()" class="btn">Search</button>
+    </div>
+    <div class="container">
+        <div class="left-side">
+            <h2>Book List</h2>
+            <ul id="book-list">
+                <!-- Book list will be generated here -->
+            </ul>
+        </div>
+        <div class="right-side">
+            <h2>User Menu</h2>
+            <ul>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

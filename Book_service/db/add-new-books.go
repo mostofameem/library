@@ -25,14 +25,15 @@ func GetBookTypeRepo() *BookTypeRepo {
 }
 
 type Books struct {
-	Isbn             int    `json:"isbn" validate:"required"`
-	Title            string `json:"title" validate:"required"`
-	Author           string `json:"author" validate:"required"`
-	Genres           string `json:"genres" validate:"required"`
-	Quantity         int    `json:"quantity" validate:"required"`
-	Publication_date string `json:"publication_date" validate:"required"`
-	Next_available   string `json:"next_available"`
-	Is_active        string `json:"is_active"`
+	Isbn             int    `db:"isbn"  json:"isbn" validate:"required"`
+	Title            string `db:"title" json:"title" validate:"required"`
+	Total_Page       int    `db:"total_page" json:"total_page" validate:"required"`
+	Author           string `db:"author" json:"author" validate:"required"`
+	Genres           string `db:"genres" json:"genres" validate:"required"`
+	Quantity         int    `db:"quantity" json:"quantity" validate:"required"`
+	Publication_date string `db:"publication_date" json:"publication_date" validate:"required"`
+	Next_available   string `db:"next_available" json:"next_available"`
+	Is_active        string `db:"is_active" json:"is_active"`
 }
 
 func (r *BookTypeRepo) Create(book Books) error {
@@ -42,6 +43,7 @@ func (r *BookTypeRepo) Create(book Books) error {
 	columns := map[string]interface{}{
 		"isbn":             book.Isbn,
 		"title":            book.Title,
+		"total_page":       book.Total_Page,
 		"author":           book.Author,
 		"genres":           book.Genres,
 		"quantity":         book.Quantity,

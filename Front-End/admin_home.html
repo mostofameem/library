@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="admin_home.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Request Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        .section {
+            border: 1px solid #000;
+            padding: 20px;
+            width: 30%;
+        }
+        .section h2 {
+            margin-top: 0;
+        }
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .item button {
+            margin-left: 10px;
+        }
+        .menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .menu button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="section" id="user-request">
+        <h2>User Request</h2>
+        <div id="user-request-list"></div>
+    </div>
+    <div class="section" id="book-request">
+        <h2>Book Request</h2>
+        <div id="book-request-list"></div>
+    </div>
+    <div class="menu">
+        <button>Menu</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+body {
+  display: flex;
+  flex-direction: column; /* Change the direction to column */
+  padding: 0; /* Remove padding */
+  justify-content: flex-start; /* Align items at the top */
+  align-items: center;
+  min-height: 100vh;
+  background: url(search_back.jpg);
+  background-size: cover;
+  background-position: center;
+  margin: 0; /* Remove default body margin */
+}
+
+.query {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 10px;
+  display: flex;
+  gap: 20px; /* Space between input fields and drop-down box */
+  font-family: Arial;
+  background: rgba(255, 255, 255, 0.7); /* Optional: Add background color for contrast */
+  padding: 10px; /* Optional: Add padding for better spacing */
+  border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for depth */
+}
+
+.btn {
+  background-color: rgb(96, 181, 238);
+  color: white;
+  height: 30px;
+  width: 80px;
+  border-radius: 40px;
+  border-color: rgb(96, 181, 238);
+  border-style: solid;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  transition: box-shadow 0.15s;
+}
+
+.btn:hover {
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.50);
+}
+
+.btn:active {
+  background-color: #31b0e2;
+  box-shadow: 0 5px #252323;
+  transform: translateY(2px);
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  align-items: flex-start; /* Align items at the start of the container */
+  gap: 10px; /* Set gap between flex items */
+}
+
+.left-side {
+  width: 60%;
+  padding: 20px;
+  margin-left: 5%;
+  flex: 0 0 auto; /* Do not grow or shrink, take space as needed */
+  background-color: rgba(244, 244, 244, 0.6); /* 40% transparent */
+}
+
+.right-side {
+  width: 20%;
+  padding: 20px;
+  margin-right: 30px;
+  flex: 0 0 auto; /* Do not grow or shrink, take space as needed */
+  background-color: rgba(221, 221, 221, 0.6); /* 40% transparent */
+}
+
+
+h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+/* Styling for the book blocks */
+#book-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style-type: none;
+  padding: 0;
+}
+
+.book-block {
+  display: block;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: center;
+  width: 150px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.book-block:hover {
+  background-color: #f0f0f0;
+}

@@ -16,6 +16,7 @@ func StartServer(wg *sync.WaitGroup) {
 
 	InitRouts(mux, manager)
 
+	// Enable CORS on the mux
 	handler := middlewares.EnableCors(mux)
 
 	swagger.SetupSwagger(mux, manager)
