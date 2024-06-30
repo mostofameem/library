@@ -23,12 +23,11 @@ function Login() {
         if (res.data.message == "User") {
           // Store the JWT token in localStorage
           localStorage.setItem('jwtToken', res.data.data);
-          console.log(res.data)
-          alert("Log IN")
           // Redirect to home page
           window.location.href = "home.html";
         }else{
-
+          alert("admin login");
+          window.location.href = "admin_home.html";
         }
       } else {
         alert("Wrong email/password");

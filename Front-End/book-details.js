@@ -42,14 +42,7 @@ function displayBookDetails(book) {
 }
 
 function BorrowBook() {
-    // Get the JWT token from localStorage
-    const token = localStorage.getItem('jwtToken');
-    console.log(token);
-
-    if (!token) {
-        alert('You need to be logged in to borrow a book.');
-        return;
-    }
+   
     // Get the current book details from localStorage
     const currentBook = book
     if (!currentBook) {
@@ -71,6 +64,12 @@ function BorrowBook() {
     };
     console.log(requestBody)
 
+     // Get the JWT token from localStorage
+     const token = localStorage.getItem('jwtToken');
+     if (!token) {
+         alert('You need to be logged in to borrow a book.');
+         return;
+     }
     // Make the API call to borrow the book
     axios.post('http://localhost:3002/borrow', requestBody, {
         headers: {
@@ -85,4 +84,41 @@ function BorrowBook() {
             console.error(error);
         });
 
+}
+
+
+function decodeJwtToken(token) {
+    // Split the token into header, payload, and signature parts
+    const parts = token.split('.');
+    const payload = parts[1];
+
+    // Decode and parse the payload from base64
+    const decodedPayload = atob(payload);
+    const parsedPayload = JSON.parse(decodedPayload);
+
+    return parsedPayload;
+}
+
+// Get JWT token from localStorage
+const jwtToken = localStorage.getItem('jwtToken');
+if (jwtToken) {
+    // Decode JWT token payload
+    const payload = decodeJwtToken(jwtToken);
+
+    // Access attributes from the payload
+    const userId = payload.Id;
+    const userType = payload.Type;
+    const expiration = payload.exp;
+
+    // Log or use the attributes as needed
+    console.log('User ID:', userId);
+    console.log('User Type:', userType);
+    console.log('Token Expiration:', new Date(expiration * 1000)); // Convert expiration timestamp to Date
+
+    // Example: Update UI with user information
+    document.getElementById('userId').textContent = userId;
+    document.getElementById('userType').textContent = userType;
+    document.getElementById('expiration').textContent = new Date(expiration * 1000).toLocaleString();
+} else {
+    console.log('JWT token not found in localStorage');
 }

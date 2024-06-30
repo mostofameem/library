@@ -56,3 +56,13 @@ function updateBookList(books) {
         bookList.appendChild(li);
     });
 }
+document.getElementById('logout').addEventListener('click', function(event) {
+    // Prevent the default link action
+    event.preventDefault();
+
+    // Remove JWT token from localStorage
+    localStorage.removeItem('jwtToken');
+
+    // Navigate to the login page
+    window.location.href = 'login.html';
+});
